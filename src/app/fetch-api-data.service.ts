@@ -18,7 +18,6 @@ export class FetchApiDataService {
   constructor(private http: HttpClient) {}
   // API call for the user registration endpoint
   public userRegistration(userDetails: any): Observable<any> {
-    console.log(userDetails);
     return this.http
       .post(`${apiUrl}users`, userDetails)
       .pipe(catchError(this.handleError));
@@ -26,7 +25,6 @@ export class FetchApiDataService {
 
   // API call for the user login endpoint
   public userLogin(userDetails: any): Observable<any> {
-    console.log(userDetails);
     return this.http
       .post(`${apiUrl}login`, userDetails)
       .pipe(catchError(this.handleError));
@@ -108,7 +106,7 @@ export class FetchApiDataService {
   // API call to get data of a user
   getUser(): Observable<any> {
     const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem('name');
     return this.http
       .get(`${apiUrl}users/${user}`, {
         headers: new HttpHeaders({
@@ -119,24 +117,11 @@ export class FetchApiDataService {
   }
 
   // API call to get data of a user
-  updateUser(): Observable<any> {
+  updateUser(userData: any): Observable<any> {
     const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem('name');
     return this.http
-      .put(`${apiUrl}users/${user}`, {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${token}`,
-        }),
-      })
-      .pipe(map(this.extractResponseData), catchError(this.handleError));
-  }
-
-  // API call to get data of a user
-  getFavoriteMovies(): Observable<any> {
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
-    return this.http
-      .get(`${apiUrl}users/${user}/movies`, {
+      .put(`${apiUrl}users/${user}`, userData, {
         headers: new HttpHeaders({
           Authorization: `Bearer ${token}`,
         }),
@@ -147,20 +132,24 @@ export class FetchApiDataService {
   // API call to add movie to favorite list of user
   addFavoriteMovie(movie: string): Observable<any> {
     const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem('name');
     return this.http
-      .put(`${apiUrl}users/${user}/movies/${movie}`, {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${token}`,
-        }),
-      })
+      .put(
+        `${apiUrl}users/${user}/movies/${movie}`,
+        {},
+        {
+          headers: new HttpHeaders({
+            Authorization: `Bearer ${token}`,
+          }),
+        }
+      )
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
   // API call to remove movie from favorite list of user
   removeFavoriteMovie(movie: string): Observable<any> {
     const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem('name');
     return this.http
       .delete(`${apiUrl}users/${user}/movies/${movie}`, {
         headers: new HttpHeaders({
@@ -173,7 +162,7 @@ export class FetchApiDataService {
   // API call to delete user
   deleteUser(): Observable<any> {
     const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem('name');
     return this.http
       .delete(`${apiUrl}users/${user}`, {
         headers: new HttpHeaders({
