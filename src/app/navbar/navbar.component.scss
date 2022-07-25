@@ -12,6 +12,11 @@ mat-toolbar {
 
 .myFlix-logo {
   text-decoration: none;
+  img {
+    height: 40px;
+    width: auto;
+    margin-right: 15px;
+  }
 }
 
 .myFlix-logo:visited {
