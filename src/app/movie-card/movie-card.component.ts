@@ -51,6 +51,7 @@ export class MovieCardComponent implements OnInit {
     this.fetchApiData.addFavoriteMovie(movieId).subscribe((resp: any) => {
       this.snackBar.open('Movie added to list!', 'OK', {
         duration: 2000,
+        panelClass: 'snackbar',
       });
     });
   }

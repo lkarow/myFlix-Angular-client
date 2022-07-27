@@ -41,12 +41,14 @@ export class UserLoginFormComponent implements OnInit {
         this.dialogRef.close();
         this.snackBar.open('User login successful!', 'OK', {
           duration: 2000,
+          panelClass: 'snackbar',
         });
         this.router.navigate(['movies']);
       },
       (result) => {
         this.snackBar.open(result, 'OK', {
           duration: 2000,
+          panelClass: 'snackbar',
         });
       }
     );

@@ -96,9 +96,9 @@ export class ProfileComponent implements OnInit {
   // Update user data in api
   updateUserData(): void {
     this.fetchApiData.updateUser(this.user).subscribe((resp: any) => {
-      console.log(resp);
       this.snackBar.open('User data successfully updated!', 'OK', {
         duration: 2000,
+        panelClass: 'snackbar',
       });
       return resp;
     });
@@ -117,9 +117,9 @@ export class ProfileComponent implements OnInit {
 
   deleteProfile(): void {
     this.fetchApiData.deleteUser().subscribe((resp: any) => {
-      console.log(resp);
       this.snackBar.open('Account deleted!', 'OK', {
         duration: 2000,
+        panelClass: 'snackbar',
       });
     });
     localStorage.clear();
@@ -129,11 +129,8 @@ export class ProfileComponent implements OnInit {
   getMovieDataForFavorites(): void {
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
       this.movies = resp;
-
       // Filter the favorite movies of user
       this.filterMovies();
-      console.log(this.favoriteMovies);
-
       return this.movies;
     });
   }
@@ -150,6 +147,7 @@ export class ProfileComponent implements OnInit {
     this.fetchApiData.removeFavoriteMovie(movieId).subscribe((resp: any) => {
       this.snackBar.open('Movie removed from list!', 'OK', {
         duration: 2000,
+        panelClass: 'snackbar',
       });
       window.location.reload();
     });
