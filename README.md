@@ -2,7 +2,7 @@
 
 ## Description
 
-A client-side built with Angular for a movie app based on server-side REST API and database ([movie_api](https://github.com/lkarow/movie_api)). Users can sign up and log in, update their personal information and create a list of their favorite movies, as well as view data about the movies.
+A client-side for a movie app based on server-side REST API and database ([movie_api](https://github.com/lkarow/movie_api)) built with Angular. Users can sign up and log in, update their personal information and create a list of their favorite movies, as well as view data about the movies.
 
 ## Built With
 
