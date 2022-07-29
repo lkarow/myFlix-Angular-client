@@ -16,34 +16,36 @@ export class FetchApiDataService {
   // Inject the HttpClient module to the constructor params
   // This will provide HttpClient to the entire class, making it available via this.http
   constructor(private http: HttpClient) {}
-  // API call for the user registration endpoint
+
+  /**
+   * POST API call to register the user
+   * @param userDetails
+   * @returns user data in JSON
+   * @function userRegistration
+   */
   public userRegistration(userDetails: any): Observable<any> {
     return this.http
       .post(`${apiUrl}users`, userDetails)
       .pipe(catchError(this.handleError));
   }
 
-  // API call for the user login endpoint
+  /**
+   * POST API call to log in the user
+   * @param {any} userDetails
+   * @returns user data in JSON
+   * @function userLogin
+   */
   public userLogin(userDetails: any): Observable<any> {
     return this.http
       .post(`${apiUrl}login`, userDetails)
       .pipe(catchError(this.handleError));
   }
 
-  private handleError(error: HttpErrorResponse): any {
-    if (error.error instanceof ErrorEvent) {
-      console.error(`Some error occurred: ${error.error.message}`);
-    } else {
-      console.error(
-        `Error Status code ${error.status}, Error body is: ${error.error}`
-      );
-    }
-    return throwError(
-      () => new Error('Something bad happened; please try again later.')
-    );
-  }
-
-  // API call to get all movies
+  /**
+   * GET API call to get all movies
+   * @returns array of all movies in JSON
+   * @function getAllMovies
+   */
   getAllMovies(): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http
@@ -55,7 +57,12 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // API call to get data of a single movie
+  /**
+   * GET API call to get data of a single movie
+   * @param {string} title
+   * @returns movie data in JSON
+   * @function getOneMovie
+   */
   getOneMovie(title: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http
@@ -67,7 +74,12 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // API call to get data of a genre
+  /**
+   * GET API call to get data of a genre
+   * @param {string} genre
+   * @returns data of genre in JSON
+   * @function getGenre
+   */
   getGenre(genre: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http
@@ -79,7 +91,12 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // API call to get data of a director
+  /**
+   * GET API call to get data of a director
+   * @param {string} director
+   * @returns data of director in JSON
+   * @functiongetDirector
+   */
   getDirector(director: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http
@@ -91,19 +108,11 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // API call to add new user
-  addUser(): Observable<any> {
-    const token = localStorage.getItem('token');
-    return this.http
-      .post(`${apiUrl}users/`, {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${token}`,
-        }),
-      })
-      .pipe(map(this.extractResponseData), catchError(this.handleError));
-  }
-
-  // API call to get data of a user
+  /**
+   * GET API call to get user data
+   * @returns user data in JSON
+   * @function getUser
+   */
   getUser(): Observable<any> {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('name');
@@ -116,7 +125,12 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // API call to get data of a user
+  /**
+   * PUT API call to update user data
+   * @param {any} userData
+   * @returns user data in JSON
+   * @function updateUser
+   */
   updateUser(userData: any): Observable<any> {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('name');
@@ -129,7 +143,12 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // API call to add movie to favorite list of user
+  /**
+   * PUT API call to add movie to favorite movies of a user
+   * @param {string} movie
+   * @returns user data in JSON
+   * @function addFavoriteMovie
+   */
   addFavoriteMovie(movie: string): Observable<any> {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('name');
@@ -146,7 +165,12 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // API call to remove movie from favorite list of user
+  /**
+   * DELETE API call to remove movie from favorite movies of a user
+   * @param {string} movie
+   * @returns user data in JSON
+   * @function removeFavoriteMovie
+   */
   removeFavoriteMovie(movie: string): Observable<any> {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('name');
@@ -159,7 +183,11 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // API call to delete user
+  /**
+   * DELETE API call to delete user
+   * @returns message as confirmation
+   * @function deleteUser
+   */
   deleteUser(): Observable<any> {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('name');
@@ -176,5 +204,24 @@ export class FetchApiDataService {
   private extractResponseData(res: any): any {
     const body = res;
     return body || {};
+  }
+
+  /**
+   * Handle error
+   * @param error
+   * @returns
+   * @function handleError
+   */
+  private handleError(error: HttpErrorResponse): any {
+    if (error.error instanceof ErrorEvent) {
+      console.error(`Some error occurred: ${error.error.message}`);
+    } else {
+      console.error(
+        `Error Status code ${error.status}, Error body is: ${error.error}`
+      );
+    }
+    return throwError(
+      () => new Error('Something bad happened; please try again later.')
+    );
   }
 }

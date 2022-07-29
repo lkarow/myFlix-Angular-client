@@ -29,7 +29,10 @@ export class UserLoginFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // Function responsible for sending the form inputs to the backend
+  /**
+   * Login user
+   * @function loginUser
+   */
   loginUser(): void {
     // activate spinner
     this.loading = true;

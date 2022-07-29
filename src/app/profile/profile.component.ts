@@ -45,31 +45,49 @@ export class ProfileComponent implements OnInit {
     this.getUserData();
   }
 
-  // Get user data
+  /**
+   * Get user data using API, store locally, and populate favoriteMoviesId
+   * @return {object} user data
+   * @function getUserData
+   */
   getUserData(): void {
     this.fetchApiData.getUser().subscribe((resp: any) => {
       this.user = resp;
       // Populate favoreMovies from user data
       this.favoriteMoviesId = resp.FavoriteMovies;
-      return this.getUserData;
+      return this.user;
     });
   }
 
-  // Display inputs to edit user data
+  /**
+   * Toggle display of input to edit the username
+   */
   displayUsernamerEdit() {
     this.isDisplayedUsernameEdit = !this.isDisplayedUsernameEdit;
   }
+  /**
+   * Toggle display of input to edit the email of the user
+   */
   displayEmailEdit() {
     this.isDisplayedEmailEdit = !this.isDisplayedEmailEdit;
   }
+  /**
+   * Toggle display of input to edit the password of the user
+   */
   displayPasswordEdit() {
     this.isDisplayedPasswordEdit = !this.isDisplayedPasswordEdit;
   }
+  /**
+   * Toggle display of input to edit the birtday of the user
+   */
   displayBirthdayEdit() {
     this.isDisplayedBirthdayEdit = !this.isDisplayedBirthdayEdit;
   }
 
-  // Update user data
+  /**
+   * Update local username and call updateUserData() to update username via the API
+   * @function updateUsername
+   */
   updateUsername(): void {
     this.user.Username = this.userData.Username;
     this.updateUserData();
@@ -77,23 +95,39 @@ export class ProfileComponent implements OnInit {
     localStorage.setItem('name', this.user.Username);
     this.displayUsernamerEdit();
   }
+  /**
+   * Update local email and call updateUserData() to update email via the API
+   * @function updateUsername
+   */
   updateEmail(): void {
     this.user.Email = this.userData.Email;
     this.updateUserData();
     this.displayEmailEdit();
   }
+  /**
+   * Update local password and call updateUserData() to update password via the API
+   * @function updatePassword
+   */
   updatePassword(): void {
     this.user.Password = this.userData.Password;
     this.updateUserData();
     this.displayPasswordEdit();
   }
+  /**
+   * Update local birthday and call updateUserData() to update birthday via the API
+   * @function updatePassword
+   */
   updateBirthday(): void {
     this.user.Birthday = this.userData.Birthday;
     this.updateUserData();
     this.displayBirthdayEdit();
   }
 
-  // Update user data in api
+  /**
+   * Update user data using API and inform user with snackbar
+   * @return {object} user data
+   * @function updateUserData
+   */
   updateUserData(): void {
     this.fetchApiData.updateUser(this.user).subscribe((resp: any) => {
       this.snackBar.open('User data successfully updated!', 'OK', {
@@ -104,7 +138,10 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  // Confirm deletion before the account is actually deleted
+  /**
+   * Let user confirm deletion of user account then call deleteProfile()
+   * @function onClickDelete
+   */
   onClickDelete() {
     if (
       confirm(
@@ -115,6 +152,10 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  /**
+   * Delete user data using API, clear localStorage, inform user with snackbar, and navigate to "/"
+   * @function getUserData
+   */
   deleteProfile(): void {
     this.fetchApiData.deleteUser().subscribe((resp: any) => {
       this.snackBar.open('Account deleted!', 'OK', {
@@ -126,6 +167,11 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  /**
+   * Get movie data using API, store locally, and call filterMovies()
+   * @return {object} movie data
+   * @function getUserData
+   */
   getMovieDataForFavorites(): void {
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
       this.movies = resp;
@@ -135,7 +181,10 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  // Match with the movieId of favoriteMovies
+  /**
+   * Filter movies so that favoriteMovies only include data of the user's favorite movies
+   * @function filterMovies
+   */
   filterMovies() {
     const favMovId = this.favoriteMoviesId.map((movie) => movie._id);
     this.favoriteMovies = this.movies.filter((movie) => {
@@ -143,6 +192,10 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Remove movie from user"s favorite movies using API, inform user with snackbar, and refresh page
+   * @function removeFromFavoriteMovies
+   */
   removeFromFavoriteMovies(movieId: string): void {
     this.fetchApiData.removeFavoriteMovie(movieId).subscribe((resp: any) => {
       this.snackBar.open('Movie removed from list!', 'OK', {
@@ -153,6 +206,14 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens dialog of DirectorComponent
+   * @param name
+   * @param bio
+   * @param birth
+   * @param death
+   * @function openDirectorDialog
+   */
   openDirectorDialog(
     name: string,
     bio: string,
@@ -165,6 +226,12 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens dialog of GenreComponent
+   * @param name
+   * @param description
+   * @function openGenreDialog
+   */
   openGenreDialog(name: string, description: string): void {
     this.dialog.open(GenreComponent, {
       data: { Name: name, Description: description },
@@ -172,6 +239,11 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens dialog of SynopsisComponent
+   * @param synopsis
+   * @function openSynopsisDialog
+   */
   openSynopsisDialog(synopsis: string): void {
     this.dialog.open(SynopsisComponent, {
       data: { Synopsis: synopsis },
